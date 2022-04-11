@@ -16,6 +16,14 @@ class LogisticaVendas {
 		$this->database = $d;
 
 		$this->conexao = new mysqli($this->servername, $this->username, $this->password, $this->database);
+
+		include "GroupFive.sql";
+		$sql = ob_get_clean();
+		if ($this->conexao->query($sql) === TRUE) {
+			echo "Funcionario cadastrado!";
+		} else {
+			echo "Error: " . $sql . "\n" . $this->conexao->error . "\n\n";
+		}
 	}
 
 	function __destruct() {
@@ -30,27 +38,6 @@ class LogisticaVendas {
 		echo "Conectado!";
 	}
 
-	function cadastrarFuncionario($idFunc, $nomeFunc, $endereco, $dataNasc, $sexo, $salario, $idSuperv, $idDepto) {
-		$sql = "INSERT INTO Funcionario
-				VALUES ($idFunc, '$nomeFunc', '$endereco', '$dataNasc', '$sexo', $salario, $idSuperv, $idDepto);";
-
-		if ($this->conexao->query($sql) === TRUE) {
-			echo "Funcionario cadastrado!";
-		} else {
-			echo "Error: " . $sql . "\n" . $this->conexao->error . "\n\n";
-		}
-	}
-
-	function excluirFuncionario($idFunc) {
-		$sql = "DELETE FROM Funcionario
-				WHERE idFunc = $idFunc;";
-
-		if ($this->conexao->query($sql) === TRUE) {
-			echo "Funcionario excluido!";
-		} else {
-			echo "Error: " . $sql . "\n" . $this->conexao->error;
-		}
-	}
 }
 
 
@@ -58,21 +45,7 @@ function main() {
 
 	$GroupFive = new LogisticaVendas("localhost", "root", null, "Empresa");
 
-	$escolha = 0;
-
-	switch ($escolha) {
-		case 0:
-			$GroupFive->verificarConexao();
-			break;
-		case 1:
-			$GroupFive->cadastrarFuncionario(9, "Victor", 'R. Joao Matioli, 775', '2001/07/02', 'M', 500, 2, 1);
-			break;
-		case 2:
-			$GroupFive->excluirFuncionario(9);
-			break;
-		default:
-			break;
-	}
+	$GroupFive->verificarConexao();
 
 }
 
