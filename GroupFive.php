@@ -43,7 +43,7 @@ class LogisticaVendas {
 
 function main() {
 
-	$GroupFive = new LogisticaVendas("localhost", "root", null, "Empresa");
+	$GroupFive = new LogisticaVendas("localhost", "root", "2506", "Empresa");
 
 	$GroupFive->verificarConexao();
 
