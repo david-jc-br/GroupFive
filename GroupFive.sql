@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS LogisticaVendas.Pessoa (
 	estado VARCHAR(45) NOT NULL,
 	cep VARCHAR(8) NOT NULL,
 	bairro VARCHAR(30) NULL,
+    rua VARCHAR(50) NOT NULL,
 	numero INT UNSIGNED NOT NULL,
-	rua VARCHAR(50) NOT NULL,
 	complemento VARCHAR(30) NULL,
 	PRIMARY KEY (idPessoa),
 	UNIQUE INDEX cpf_UNIQUE (cpf ASC) VISIBLE
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS LogisticaVendas.Telefone (
 		FOREIGN KEY (idPessoa)
 		REFERENCES LogisticaVendas.Pessoa (idPessoa)
 		ON DELETE CASCADE
-		ON UPDATE NO ACTION
+		ON UPDATE CASCADE
 );
 
 
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS LogisticaVendas.Cliente (
 		FOREIGN KEY (idCliente)
 		REFERENCES LogisticaVendas.Pessoa (idPessoa)
 		ON DELETE CASCADE
-		ON UPDATE NO ACTION
+		ON UPDATE CASCADE
 );
 
 
@@ -78,12 +78,12 @@ CREATE TABLE IF NOT EXISTS LogisticaVendas.Funcionario (
 		FOREIGN KEY (idFuncionario)
 		REFERENCES LogisticaVendas.Pessoa (idPessoa)
 		ON DELETE CASCADE
-		ON UPDATE NO ACTION,
+		ON UPDATE CASCADE,
 	CONSTRAINT idLoja
 		FOREIGN KEY (idLoja)
 		REFERENCES LogisticaVendas.Loja (idLoja)
 		ON DELETE RESTRICT
-		ON UPDATE NO ACTION
+		ON UPDATE RESTRICT
 );
 
 
@@ -97,57 +97,57 @@ CREATE TABLE IF NOT EXISTS LogisticaVendas.Motorista (
 		FOREIGN KEY (idMotorista)
 		REFERENCES LogisticaVendas.Funcionario (idFuncionario)
 		ON DELETE CASCADE
-		ON UPDATE NO ACTION
+		ON UPDATE CASCADE
 );
 
 
 CREATE TABLE IF NOT EXISTS LogisticaVendas.VeiculoEntrega (
 	idVeiculo INT NOT NULL,
-	idMotoristaEntrega INT NOT NULL,
+	idMotorista INT NOT NULL,
 	placa VARCHAR(7) NOT NULL,
 	tipoVeiculo VARCHAR(15) NOT NULL,
 	cilindradas INT NULL,
 	capacidadePeso DECIMAL(2,1) NULL,
 	PRIMARY KEY (idVeiculo),
-	INDEX idMotorista_idx (idMotoristaEntrega ASC) VISIBLE,
+	INDEX idMotorista_idx (idMotorista ASC) VISIBLE,
 	UNIQUE INDEX placa_UNIQUE (placa ASC) VISIBLE,
-	CONSTRAINT idMotoristaEntrega
-		FOREIGN KEY (idMotoristaEntrega)
+	CONSTRAINT fk_Motorista
+		FOREIGN KEY (idMotorista)
 		REFERENCES LogisticaVendas.Motorista (idMotorista)
 		ON DELETE RESTRICT
-		ON UPDATE NO ACTION
+		ON UPDATE RESTRICT
 );
 
 
 CREATE TABLE IF NOT EXISTS LogisticaVendas.Pedido (
 	numPedido INT NOT NULL,
-	idClientePedido INT NOT NULL,
-	idLojaPedido INT NULL,
+	idCliente INT NOT NULL,
+	idLoja INT NULL,
 	codEntrega VARCHAR(11) NOT NULL,
-	idVeiculoPedido INT NOT NULL,
+	idVeiculo INT NOT NULL,
 	valor DECIMAL(7,2) NOT NULL,
 	data DATETIME NOT NULL,
 	distanciaEntrega DECIMAL(4,1) NOT NULL,
 	PRIMARY KEY (numPedido),
-	INDEX idCliente_idx (idClientePedido ASC) VISIBLE,
-	INDEX idLoja_idx (idLojaPedido ASC) VISIBLE,
-	INDEX idVeiculo_idx (idVeiculoPedido ASC) VISIBLE,
+	INDEX idCliente_idx (idCliente ASC) VISIBLE,
+	INDEX idLoja_idx (idLoja ASC) VISIBLE,
+	INDEX idVeiculo_idx (idVeiculo ASC) VISIBLE,
 	UNIQUE INDEX codEntrega_UNIQUE (codEntrega ASC) VISIBLE,
-	CONSTRAINT idClientePedido
-		FOREIGN KEY (idClientePedido)
+	CONSTRAINT fk_Cliente
+		FOREIGN KEY (idCliente)
 		REFERENCES LogisticaVendas.Cliente (idCliente)
 		ON DELETE RESTRICT
-		ON UPDATE NO ACTION,
-	CONSTRAINT idLojaPedido
-		FOREIGN KEY (idLojaPedido)
+		ON UPDATE RESTRICT,
+	CONSTRAINT fk_Pedido
+		FOREIGN KEY (idLoja)
 		REFERENCES LogisticaVendas.Loja (idLoja)
 		ON DELETE RESTRICT
-		ON UPDATE NO ACTION,
-	CONSTRAINT idVeiculoPedido
-		FOREIGN KEY (idVeiculoPedido)
+		ON UPDATE RESTRICT,
+	CONSTRAINT fk_Veiculo
+		FOREIGN KEY (idVeiculo)
 		REFERENCES LogisticaVendas.VeiculoEntrega (idVeiculo)
 		ON DELETE RESTRICT
-		ON UPDATE NO ACTION
+		ON UPDATE RESTRICT
 );
 
 
@@ -170,10 +170,10 @@ CREATE TABLE IF NOT EXISTS LogisticaVendas.ProdutosPedido (
 		FOREIGN KEY (numPedido)
 		REFERENCES LogisticaVendas.Pedido (numPedido)
 		ON DELETE CASCADE
-		ON UPDATE NO ACTION,
+		ON UPDATE CASCADE,
 	CONSTRAINT codProduto
 		FOREIGN KEY (codProduto)
 		REFERENCES LogisticaVendas.Produto (codProduto)
 		ON DELETE CASCADE
-		ON UPDATE NO ACTION
+		ON UPDATE CASCADE
 );
