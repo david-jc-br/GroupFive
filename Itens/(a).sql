@@ -74,7 +74,6 @@ CREATE TABLE Funcionario (
 	idLoja INT NOT NULL,
 	PRIMARY KEY (idFuncionario),
 	UNIQUE INDEX registro_UNIQUE (regFuncionario ASC) VISIBLE,
-	INDEX idLoja_idx (idLoja ASC) VISIBLE,
 	CONSTRAINT idFuncionario
 		FOREIGN KEY (idFuncionario)
 		REFERENCES Pessoa (idPessoa)
@@ -108,7 +107,6 @@ CREATE TABLE VeiculoEntrega (
 	cilindradas INT NULL,
 	capacidadePeso DECIMAL(2,1) NULL,
 	PRIMARY KEY (idVeiculo),
-	INDEX idMotorista_idx (idMotorista ASC) VISIBLE,
 	UNIQUE INDEX placa_UNIQUE (placa ASC) VISIBLE,
 	CONSTRAINT fk_VeiculoMotorista
 		FOREIGN KEY (idMotorista)
@@ -120,16 +118,13 @@ CREATE TABLE VeiculoEntrega (
 CREATE TABLE Pedido (
 	numPedido INT NOT NULL,
 	idCliente INT NOT NULL,
-	idLoja INT NULL,
+	idLoja INT NOT NULL,
 	codEntrega VARCHAR(11) NOT NULL,
 	idVeiculo INT NOT NULL,
 	valor DECIMAL(7,2) NOT NULL,
 	data DATETIME NOT NULL,
 	distanciaEntrega DECIMAL(4,1) NOT NULL,
 	PRIMARY KEY (numPedido),
-	INDEX idCliente_idx (idCliente ASC) VISIBLE,
-	INDEX idLoja_idx (idLoja ASC) VISIBLE,
-	INDEX idVeiculo_idx (idVeiculo ASC) VISIBLE,
 	UNIQUE INDEX codEntrega_UNIQUE (codEntrega ASC) VISIBLE,
 	CONSTRAINT fk_PedidoCliente
 		FOREIGN KEY (idCliente)
