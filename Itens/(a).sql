@@ -122,7 +122,7 @@ CREATE TABLE Pedido (
 	codEntrega VARCHAR(11) NOT NULL,
 	idVeiculo INT NOT NULL,
 	valor DECIMAL(7,2) NOT NULL,
-	data DATETIME NOT NULL,
+	data DATETIME NOT NULL DEFAULT CURRENT_TIME(),
 	distanciaEntrega DECIMAL(4,1) NOT NULL,
 	PRIMARY KEY (numPedido),
 	UNIQUE INDEX codEntrega_UNIQUE (codEntrega ASC) VISIBLE,
@@ -193,4 +193,24 @@ BEGIN
 END //
 DELIMITER ;
 
+DELIMITER //
+CREATE TRIGGER valorPedido
+AFTER INSERT ON ProdutosPedido
+FOR EACH ROW
+BEGIN
+	UPDATE Pedido P
+	SET P.valor = P.valor + NEW.quantidade * New.precoVendido
+	WHERE P.numPedido = NEW.numPedido;
+END //
+DELIMITER ;
 
+DELIMITER //
+CREATE TRIGGER totalVendidoLoja
+AFTER INSERT ON ProdutosPedido
+FOR EACH ROW
+BEGIN
+	UPDATE Loja L
+	SET L.totalVendido = L.totalVendido + NEW.quantidade * New.preco
+	WHERE P.numPedido = NEW.numPedido;
+END //
+DELIMITER ;
