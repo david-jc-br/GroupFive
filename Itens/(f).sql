@@ -1,4 +1,4 @@
--- (f) Exemplos de consultas. --
+/* (f) Exemplos de consultas. */
 
 /* 1. Recupera o nome completo, o CPF e o salario de pessoas que são funcionários de uma loja
       da cidade de Lavras em ordem alfabética de nome */

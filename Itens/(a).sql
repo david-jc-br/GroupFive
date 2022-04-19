@@ -1,7 +1,7 @@
 /* (a) Criação de todas as tabelas, restrições de integridade,
-restrições de PRIMARY KEY e FOREIGN KEY, e exemplos com UNIQUE e DEFAULT. */
+   restrições de PRIMARY KEY e FOREIGN KEY, e exemplos com UNIQUE e DEFAULT. */
 
--- Criação e utilização do Schema --
+-- Criação e utilização do esquema --
 
 CREATE SCHEMA LogisticaVendas;
 
@@ -121,8 +121,8 @@ CREATE TABLE Pedido (
 	idLoja INT NOT NULL,
 	codEntrega VARCHAR(11) NOT NULL,
 	idVeiculo INT NOT NULL,
-	valor DECIMAL(7,2) NOT NULL,
-	data DATETIME NOT NULL DEFAULT CURRENT_TIME(),
+	valor DECIMAL(7,2) NOT NULL DEFAULT 0.00,
+	data DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	distanciaEntrega DECIMAL(4,1) NOT NULL,
 	PRIMARY KEY (numPedido),
 	UNIQUE INDEX codEntrega_UNIQUE (codEntrega ASC) VISIBLE,
@@ -160,57 +160,13 @@ CREATE TABLE ProdutosPedido (
 	CONSTRAINT numPedido
 		FOREIGN KEY (numPedido)
 		REFERENCES Pedido (numPedido)
-		ON DELETE CASCADE
-		ON UPDATE CASCADE,
+		ON DELETE RESTRICT
+		ON UPDATE RESTRICT,
 	CONSTRAINT codProduto
 		FOREIGN KEY (codProduto)
 		REFERENCES Produto (codProduto)
-		ON DELETE CASCADE
-		ON UPDATE CASCADE
+		ON DELETE RESTRICT
+		ON UPDATE RESTRICT
 );
 
--- Triggers --
-
-DELIMITER //
-CREATE TRIGGER adicionarFuncionario
-AFTER INSERT ON Funcionario
-FOR EACH ROW
-BEGIN
-	UPDATE Loja L
-	SET L.qtdFuncionarios = L.qtdFuncionarios + 1
-	WHERE L.idLoja = NEW.idLoja;
-END //
-DELIMITER ;
-
-DELIMITER //
-CREATE TRIGGER removerFuncionario
-AFTER DELETE ON Funcionario
-FOR EACH ROW
-BEGIN
-	UPDATE Loja L
-	SET L.qtdFuncionarios = L.qtdFuncionarios - 1
-	WHERE L.idLoja = OLD.idLoja;
-END //
-DELIMITER ;
-
-DELIMITER //
-CREATE TRIGGER valorPedido
-AFTER INSERT ON ProdutosPedido
-FOR EACH ROW
-BEGIN
-	UPDATE Pedido P
-	SET P.valor = P.valor + NEW.quantidade * New.precoVendido
-	WHERE P.numPedido = NEW.numPedido;
-END //
-DELIMITER ;
-
-DELIMITER //
-CREATE TRIGGER totalVendidoLoja
-AFTER INSERT ON ProdutosPedido
-FOR EACH ROW
-BEGIN
-	UPDATE Loja L
-	SET L.totalVendido = L.totalVendido + NEW.quantidade * New.preco
-	WHERE P.numPedido = NEW.numPedido;
-END //
-DELIMITER ;
+COMMIT;
