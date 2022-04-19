@@ -1,8 +1,15 @@
-CREATE SCHEMA IF NOT EXISTS LogisticaVendas;
+/* (a) Criação de todas as tabelas, restrições de integridade,
+restrições de PRIMARY KEY e FOREIGN KEY, e exemplos com UNIQUE e DEFAULT. */
+
+-- Criação e utilização do Schema --
+
+CREATE SCHEMA LogisticaVendas;
 
 USE LogisticaVendas;
 
-CREATE TABLE IF NOT EXISTS Pessoa (
+-- Criação das tabelas e restrições --
+
+CREATE TABLE Pessoa (
 	idPessoa INT NOT NULL AUTO_INCREMENT,
 	cpf VARCHAR(11) NOT NULL,
 	primeiroNome VARCHAR(30) NOT NULL,
@@ -18,7 +25,7 @@ CREATE TABLE IF NOT EXISTS Pessoa (
 	UNIQUE INDEX cpf_UNIQUE (cpf ASC) VISIBLE
 );
 
-CREATE TABLE IF NOT EXISTS Telefone (
+CREATE TABLE Telefone (
 	idPessoa INT NOT NULL,
 	fone VARCHAR(11) NOT NULL,
 	PRIMARY KEY (idPessoa, fone),
@@ -29,7 +36,7 @@ CREATE TABLE IF NOT EXISTS Telefone (
 		ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS Cliente (
+CREATE TABLE Cliente (
 	idCliente INT NOT NULL,
 	email VARCHAR(40) NOT NULL,
 	pedidosEfetuados INT UNSIGNED NOT NULL DEFAULT 0,
@@ -43,7 +50,7 @@ CREATE TABLE IF NOT EXISTS Cliente (
 		ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS Loja (
+CREATE TABLE Loja (
 	idLoja INT NOT NULL,
 	cnpj VARCHAR(14) NOT NULL,
 	nome VARCHAR(50) NOT NULL,
@@ -53,14 +60,14 @@ CREATE TABLE IF NOT EXISTS Loja (
 	bairro VARCHAR(30) NULL,
 	cidade VARCHAR(30) NOT NULL,
 	estado VARCHAR(2) NOT NULL,
-	qtdFuncionarios INT NULL,
-	totalVendido DECIMAL(12,2) NULL,
-	produtosVendidos INT NULL,
+	qtdFuncionarios INT NULL DEFAULT 0,
+	totalVendido DECIMAL(12,2) NULL DEFAULT 0.00,
+	produtosVendidos INT NULL DEFAULT 0,
 	PRIMARY KEY (idLoja),
 	UNIQUE INDEX cnpj_UNIQUE (cnpj ASC) VISIBLE
 );
 
-CREATE TABLE IF NOT EXISTS Funcionario (
+CREATE TABLE Funcionario (
 	idFuncionario INT NOT NULL,
 	regFuncionario VARCHAR(4) NOT NULL,
 	salario DECIMAL(6,2) NOT NULL,
@@ -71,8 +78,8 @@ CREATE TABLE IF NOT EXISTS Funcionario (
 	CONSTRAINT idFuncionario
 		FOREIGN KEY (idFuncionario)
 		REFERENCES Pessoa (idPessoa)
-		ON DELETE CASCADE
-		ON UPDATE CASCADE,
+		ON DELETE RESTRICT
+		ON UPDATE RESTRICT,
 	CONSTRAINT idLoja
 		FOREIGN KEY (idLoja)
 		REFERENCES Loja (idLoja)
@@ -80,7 +87,7 @@ CREATE TABLE IF NOT EXISTS Funcionario (
 		ON UPDATE RESTRICT
 );
 
-CREATE TABLE IF NOT EXISTS Motorista (
+CREATE TABLE Motorista (
 	idMotorista INT NOT NULL,
 	regCNH VARCHAR(11) NOT NULL,
 	habilitacao VARCHAR(2) NOT NULL,
@@ -89,11 +96,11 @@ CREATE TABLE IF NOT EXISTS Motorista (
 	CONSTRAINT idMotorista
 		FOREIGN KEY (idMotorista)
 		REFERENCES Funcionario (idFuncionario)
-		ON DELETE CASCADE
-		ON UPDATE CASCADE
+		ON DELETE RESTRICT
+		ON UPDATE RESTRICT
 );
 
-CREATE TABLE IF NOT EXISTS VeiculoEntrega (
+CREATE TABLE VeiculoEntrega (
 	idVeiculo INT NOT NULL,
 	idMotorista INT NOT NULL,
 	placa VARCHAR(7) NOT NULL,
@@ -110,7 +117,7 @@ CREATE TABLE IF NOT EXISTS VeiculoEntrega (
 		ON UPDATE RESTRICT
 );
 
-CREATE TABLE IF NOT EXISTS Pedido (
+CREATE TABLE Pedido (
 	numPedido INT NOT NULL,
 	idCliente INT NOT NULL,
 	idLoja INT NULL,
@@ -141,7 +148,7 @@ CREATE TABLE IF NOT EXISTS Pedido (
 		ON UPDATE RESTRICT
 );
 
-CREATE TABLE IF NOT EXISTS Produto (
+CREATE TABLE Produto (
 	codProduto VARCHAR(14) NOT NULL,
 	preco DECIMAL(6,2) NOT NULL,
 	nome VARCHAR(30) NOT NULL,
@@ -149,7 +156,7 @@ CREATE TABLE IF NOT EXISTS Produto (
 	PRIMARY KEY (codProduto)
 );
 
-CREATE TABLE IF NOT EXISTS ProdutosPedido (
+CREATE TABLE ProdutosPedido (
 	numPedido INT NOT NULL,
 	codProduto VARCHAR(14) NOT NULL,
 	quantidade INT UNSIGNED NOT NULL,
@@ -166,3 +173,29 @@ CREATE TABLE IF NOT EXISTS ProdutosPedido (
 		ON DELETE CASCADE
 		ON UPDATE CASCADE
 );
+
+-- Triggers --
+
+DELIMITER //
+CREATE TRIGGER adicionarFuncionario
+AFTER INSERT ON Funcionario
+FOR EACH ROW
+BEGIN
+	UPDATE Loja L
+	SET L.qtdFuncionarios = L.qtdFuncionarios + 1
+	WHERE L.idLoja = NEW.idLoja;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER removerFuncionario
+AFTER DELETE ON Funcionario
+FOR EACH ROW
+BEGIN
+	UPDATE Loja L
+	SET L.qtdFuncionarios = L.qtdFuncionarios - 1
+	WHERE L.idLoja = OLD.idLoja;
+END //
+DELIMITER ;
+
+
