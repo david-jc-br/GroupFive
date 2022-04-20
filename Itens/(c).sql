@@ -42,7 +42,7 @@ INSERT INTO Telefone VALUES (12, "11777777777");
 
 -- Exemplo de inserção de dados na tabela Cliente --
 
-INSERT INTO Cliente (idCliente, email) VALUES (1,"victor@email.com");
+INSERT INTO Cliente (idCliente, email) VALUES (1,"david@email.com");
 INSERT INTO Cliente (idCliente, email) VALUES (2, "emailTeste@email.com");
 INSERT INTO Cliente (idCliente, email) VALUES (3, "dudu@email.com");
 INSERT INTO Cliente (idCliente, email) VALUES (4, "cleinte98@email.com");
@@ -81,6 +81,7 @@ INSERT INTO Motorista VALUES (9, "47895632587", "D");
 
 INSERT INTO VeiculoEntrega VALUES (1, 7, "BCA2925", "Caminhão", NULL, 4.5);
 INSERT INTO VeiculoEntrega VALUES (2, 9, "ABC2525", "Moto", 160, NULL);
+INSERT INTO VeiculoEntrega VALUES (3, 7, "ZSA2755", "Caminhão", NULL, 3.7);
 
 -- Exemplo de inserção de dados na tabela Produto --
 
@@ -122,6 +123,7 @@ INSERT INTO ProdutosPedido (numPedido, codProduto, quantidade, precoVendido) VAL
 INSERT INTO ProdutosPedido (numPedido, codProduto, quantidade, precoVendido)
 VALUES(1, 10, 20, 100.00);
 
+COMMIT;
 
 /* -- PARA TESTES --
 
@@ -139,6 +141,9 @@ FROM Cliente;
 
 SELECT *
 FROM Funcionario;
+
+SELECT *
+FROM Motorista;
 
 SELECT *
 FROM Loja;

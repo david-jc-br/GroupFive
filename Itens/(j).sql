@@ -86,3 +86,5 @@ BEGIN
 	WHERE C.idCliente = NEW.idCliente;
 END //
 DELIMITER ;
+
+COMMIT;
