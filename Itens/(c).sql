@@ -5,15 +5,15 @@ USE LogisticaVendas;
 -- Exemplo de inserção de dados na tabela Pessoa --
 
 INSERT INTO Pessoa VALUES (1, "12121212121", "David", "Costa", "Carmo da Cachoeira","MG", "37225000", "Bom Retiro", "Lauro Rezende de Vilela", 201, NULL);
-INSERT INTO Pessoa VALUES (2, "12365289753", "Daphne", "Vilela", "Carmo da Cachoeira","MG", "37225000", "Centro", "Avenida JK", 201, "Próximo ao shopping");
+INSERT INTO Pessoa VALUES (2, "12365289753", "Daphne", "Vilela", "Carmo da Cachoeira","MG", "63100545", "Centro", "Avenida JK", 201, "Próximo ao shopping");
 INSERT INTO Pessoa VALUES (3, "78219401001", "Guilherme", "Grego", "Divinópolis", "MG", "68553015", "Serrinha", "Rua Primavera", 501, NULL);
 INSERT INTO Pessoa VALUES (4, "28923867055", "Mário", "Couto", "São Gonçalo", "MG", "30112971", "Funcionários", "Avenida Getúlio Vargas", 631, NULL);
-INSERT INTO Pessoa VALUES (5, "10101010100", "Antonio", "Lanza", "Lavras", "MG", "3720000", "Avenida Lagoa dos Ipês","Aquenta Sol", "61", NULL);
-INSERT INTO Pessoa VALUES (6, "10101010122", "Joaozinho", "Silva", "Lavras", "MG", "3720000", "Rua Qualquer", "Bairro Qualquer", "782", "Complemento qualquer");
-INSERT INTO Pessoa VALUES (7, "12345678900", "Victor", "Lima", "Campo Belo", "MG", "37270000", "Panorama", "Pedro Neves", 75, NULL);
-INSERT INTO Pessoa VALUES (8, "12547895673", "Dudu", "Mata", "Campo Belo", "MG", "37270000", "Árvores", "Adel", 130, "Casa");
-INSERT INTO Pessoa VALUES (9, "47845698725", "Kaka", "Gon", "Campo Belo", "MG", "37270000", "Palmeiras", "Barros", 35, "Prédio");
-INSERT INTO Pessoa VALUES (10, "15983264598", "Carla", "Miranda", "Belo Horizonte", "MG", "37270000", "Avenida Pinheiros", "Alto do Peró", 35, "Ao lado do mercado Mart Minas");
+INSERT INTO Pessoa VALUES (5, "10101010100", "Antonio", "Lanza", "Lavras", "MG", "72241564", "Avenida Lagoa dos Ipês","Aquenta Sol", "61", NULL);
+INSERT INTO Pessoa VALUES (6, "10101010122", "Joaozinho", "Silva", "Lavras", "MG", "65906564", "Rua Qualquer", "Bairro Qualquer", "782", "Complemento qualquer");
+INSERT INTO Pessoa VALUES (7, "12345678900", "Victor", "Lima", "Campo Belo", "MG", "41219895", "Panorama", "Pedro Neves", 75, NULL);
+INSERT INTO Pessoa VALUES (8, "12547895673", "Dudu", "Mata", "Campo Belo", "MG", "58400227", "Árvores", "Adel", 130, "Casa");
+INSERT INTO Pessoa VALUES (9, "47845698725", "Kaka", "Gon", "Campo Belo", "MG", "76913807", "Palmeiras", "Barros", 35, "Prédio");
+INSERT INTO Pessoa VALUES (10, "15983264598", "Carla", "Miranda", "Belo Horizonte", "MG", "41412270", "Alto do Peró", "Avenida Pinheiros", 412, "Ao lado do mercado Mart Minas");
 INSERT INTO Pessoa VALUES (11, "11111111111", "Ademir", "Guia","Rio de Janeiro", "RJ", "11111111","Botafogo", "Rua 11", 11, NULL);
 INSERT INTO Pessoa VALUES (12, "22222222222", "Fausto", "Silva","Porto Ferreira", "SP", "22222222","Jardim Dalva", "Rua 12", 22, "Perto do cemitério");
 
@@ -65,8 +65,8 @@ VALUES (5,"37243428000175", "Fluxo de Dados", "79050300","Rua Geraldo Castelo", 
 -- Exemplo de inserção de dados na tabela Funcionario --
 
 INSERT INTO Funcionario VALUES (1, "1010", 1000.00, 1);
-INSERT INTO Funcionario VALUES (6, "2020", 1760.50, 1);
-INSERT INTO Funcionario VALUES (7, "1020", 1000.00, 1);
+INSERT INTO Funcionario VALUES (6, "2020", 1760.50, 2);
+INSERT INTO Funcionario VALUES (7, "1020", 1000.00, 2);
 INSERT INTO Funcionario VALUES (8, "5252", 2100.00, 2);
 INSERT INTO Funcionario VALUES (9, "0707", 5600.00, 3);
 INSERT INTO Funcionario VALUES (10, "1111", 800.00, 4);
@@ -107,11 +107,13 @@ INSERT INTO Produto VALUES(18, 898.25, "CookTop");
 -- Exemplo de inserção de dados na tabela Pedido --
 
 INSERT INTO Pedido (numPedido, idCliente, idLoja, codEntrega, idVeiculo, distanciaEntrega)
-VALUES (1, 2, 1, "45454477789", 1, 50.0);
+VALUES (1, 2, 1, "45454477789", 1, 35.0);
 INSERT INTO Pedido (numPedido, idCliente, idLoja, codEntrega, idVeiculo, distanciaEntrega)
 VALUES (2, 3, 5, "09122930239", 2, 75.0);
 INSERT INTO Pedido (numPedido, idCliente, idLoja, codEntrega, idVeiculo, distanciaEntrega)
-VALUES (3, 5, 3, "129323323", 1, 25.0);
+VALUES (3, 5, 3, "12932332301", 1, 25.0);
+INSERT INTO Pedido (numPedido, idCliente, idLoja, codEntrega, idVeiculo, distanciaEntrega)
+VALUES (4, 3, 1, "54533443413", 2, 8.0);
 
 -- Exemplo de inserção de dados na tabela Loja --
 
@@ -119,39 +121,12 @@ INSERT INTO ProdutosPedido (numPedido, codProduto, quantidade, precoVendido)
 VALUES(1,2,1,4000.00);
 INSERT INTO ProdutosPedido (numPedido, codProduto, quantidade, precoVendido)
 VALUES(2,15,5,15.00);
-INSERT INTO ProdutosPedido (numPedido, codProduto, quantidade, precoVendido) VALUES(3,10,3,50.00);
+INSERT INTO ProdutosPedido (numPedido, codProduto, quantidade, precoVendido)
+VALUES(3,10,3,50.00);
 INSERT INTO ProdutosPedido (numPedido, codProduto, quantidade, precoVendido)
 VALUES(1, 10, 20, 100.00);
+INSERT INTO ProdutosPedido (numPedido, codProduto, quantidade, precoVendido)
+VALUES(4, 18, 2, 850.00);
+
 
 COMMIT;
-
-/* -- PARA TESTES --
-
-DELETE FROM Pessoa WHERE idPessoa = 1;
-
-DELETE FROM Loja WHERE idLoja = 1;
-
-DELETE FROM Funcionario WHERE idFuncionario = 1;
-
-SELECT *
-FROM Pessoa;
-
-SELECT *
-FROM Cliente;
-
-SELECT *
-FROM Funcionario;
-
-SELECT *
-FROM Motorista;
-
-SELECT *
-FROM Loja;
-
-SELECT *
-FROM Pedido; 
-
-SELECT *
-FROM Telefone;
-
-*/
