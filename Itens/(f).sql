@@ -65,18 +65,18 @@ SELECT numPedido, valor
 FROM pedido
 WHERE valor > 5000;
 
-/* Seleciona a identificação do cliente e da loja que pediram o produto de codigo 2 */
+/*7. Seleciona a identificação do cliente e da loja que pediram o produto de codigo 2 */
 SELECT idCliente, idLoja 
 FROM Pedido NATURAL JOIN ProdutosPedido 
 WHERE codProduto = 2;
 
-/* Seleciona a identificação, nome, sobrenome e telefones 
+/*8. Seleciona a identificação, nome, sobrenome e telefones 
       dos funcionarios cujo DDD do telefone é 35 */
 SELECT P.idPessoa, primeiroNome, sobrenome, fone 
 From Telefone AS T, Pessoa AS P, Funcionario AS F
 WHERE fone LIKE '35%' AND F.idFuncionario = P.idPessoa AND T.idPessoa = P.idPessoa;
 
-/* Seleciona a identificação da loja, soma os salarios dos funcionarios 
+/*9. Seleciona a identificação da loja, soma os salarios dos funcionarios 
  e conta a quantidade de funcionarios, em que a soma dos salários é maior que 1000
  e ordenando em ordem crescente */
 SELECT idLoja, COUNT(*) AS qtdeFuncs, SUM(salario) AS SomaSalarios 
