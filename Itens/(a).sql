@@ -169,4 +169,12 @@ CREATE TABLE ProdutosPedido (
 		ON UPDATE RESTRICT
 );
 
+/* Exemplo de inserção de CPF Repetido (UNIQUE) 
+INSERT INTO Pessoa VALUES (11, "11111111111", "Ademir", "Guia","Rio de Janeiro", "RJ", "11111111","Botafogo", "Rua 11", 11, NULL);
+
+INSERT INTO Pessoa VALUES (11, "11111111111", "Ademir", "Guia","Rio de Janeiro", "RJ", "11111111","Botafogo", "Rua 11", 11, NULL);
+
+DELETE FROM PESSOA
+WHERE idPessoa = 11; */
+
 COMMIT;
