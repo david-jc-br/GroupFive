@@ -83,4 +83,17 @@ SELECT idLoja, COUNT(*) AS qtdeFuncs, SUM(salario) AS SomaSalarios
 FROM Funcionario GROUP BY idLoja 
 HAVING SomaSalarios > 1000 ORDER BY SomaSalarios ASC;
 
+/*10 Recupera a quantidade e o nome do produto que teve maior quantidade pedida de uma só vez*/ 
+SELECT nome AS nome_do_produto, quantidade AS maior_quantidade_pedida
+FROM ProdutosPedido NATURAL JOIN Produto
+WHERE quantidade IN (
+	SELECT MAX(quantidade)
+	FROM ProdutosPedido);
+
+/*11 Recupera a média salarial de cada estado com salario e nome em ordem crescente */
+SELECT nome AS NomeLoja, AVG(salario) AS MediaSalarial, estado AS Estado
+FROM Loja NATURAL JOIN Funcionario
+GROUP BY estado
+ORDER BY nome ASC, salario ASC;
+
 commit;
