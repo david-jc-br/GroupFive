@@ -4,7 +4,7 @@
 USE LogisticaVendas;
 
 /* Criação de um usuário que tem permissão de selecionar dados dos veículos utilizados para entrega e 
-   executar um store producere. */
+   executar um store procedure. */
 
 CREATE USER 'guilherme'@'localhost' IDENTIFIED BY '0000';
 
