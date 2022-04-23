@@ -1,4 +1,5 @@
 DROP SCHEMA logisticaDeVendas;
+
 CREATE SCHEMA IF NOT EXISTS logisticaDeVendas;
 
 USE logisticaDeVendas;
@@ -10,7 +11,7 @@ CREATE TABLE IF NOT EXISTS Pessoa (
 	sobrenome VARCHAR(70) NOT NULL,
 	cidade VARCHAR(30) NOT NULL,
 	estado VARCHAR(45) NOT NULL,
-	cep VARCHAR(8) NOT NULL,
+	cep CHAR(8) NOT NULL,
 	bairro VARCHAR(30) NULL,
     rua VARCHAR(50) NOT NULL,
 	numero INT UNSIGNED NOT NULL,

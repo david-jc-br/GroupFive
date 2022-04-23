@@ -5,21 +5,20 @@ header("Content-Type: text/html; charset=UTF-8",true);
 <head><title>Logística de Vendas.</title></head>
 <body>
 <body style ="background-color:silver;">
-<center><h3>Clientes</h3></center>
+<center><h3>Pessoas</h3></center>
 <form name="form1" method="POST" action="form_incluir.php">
 <table align="center" width="90%">
 <?php
 include("./config.php");
 $con = mysqli_connect($host, $login, $senha, $bd);
-$sql = "SELECT pessoa.*, email 
-        FROM pessoa JOIN cliente 
-        WHERE pessoa.idPessoa = cliente.idCliente 
+$sql = "SELECT pessoa.*
+        FROM pessoa 
         ORDER BY primeiroNome";
 $tabela = mysqli_query($con, $sql);
 if(mysqli_num_rows($tabela)==0){
 ?>
-  <tr><td align="center">Nenhum cliente cadastrado.</td></tr>
-  <tr><td align="center"><input type="submit" value="incluir Cliente"></td></tr>
+  <tr><td align="center">Nenhuma pessoa cadastrada.</td></tr>
+  <tr><td align="center"><input type="submit" value="incluir pessoa"></td></tr>
 <?php
 }else{
 ?>
@@ -33,7 +32,6 @@ if(mysqli_num_rows($tabela)==0){
                      <td width="9%" align="center"><b>Rua</b></td>
                      <td width="9%" align="center"><b>Numero</b></td>
                      <td width="9%" align="center"><b>Complemento</b></td>
-                     <td width="9%" align="center"><b>E-mail</b></td>
                      <td width="10%"align="center"><b>Opções</b></td>
     </tr>
 <?php
@@ -49,7 +47,6 @@ if(mysqli_num_rows($tabela)==0){
       <td><?php echo $dados[8]; ?></td>
       <td><?php echo $dados[9]; ?></td>
       <td><?php echo $dados[10]; ?></td>
-      <td><?php echo $dados[11]; ?></td>
 
 	  <td align="center">
 	    <input type="button" value="Editar" onclick="location.href='form_incluir.php?idPessoa=<?php echo $dados[0]; ?>'">
@@ -63,7 +60,7 @@ if(mysqli_num_rows($tabela)==0){
 <?php
 mysqli_close($con);
 ?>
-<tr><td colspan="12" align="center"><input type="submit" value="Adicionar novo cliente"></td></tr>
+<tr><td colspan="12" align="center"><input type="submit" value="Adicionar nova pessoa"></td></tr>
 <?php
 }
 ?>
