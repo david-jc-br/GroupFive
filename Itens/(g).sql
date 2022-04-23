@@ -8,6 +8,7 @@ GROUP BY codProduto;
 
 SELECT codProduto, qtdePedida FROM PedidosDeProdutos ORDER BY qtdePedida DESC;
 
+DROP VIEW PedidosDeProdutos;
 
 
 /* Visao que armazena os dados do endereco de uma pessoa em apenas uma coluna */
@@ -33,7 +34,6 @@ SELECT telefones FROM telefonesPessoa WHERE idPessoa = 1;
 DROP VIEW telefonesPessoa;
 
 
-
 /* Visao que armazena os dados principais de um funcionario */
 CREATE VIEW dadosFuncionario (idPessoa, nome, cpf, endereco, telefones, salario, lojaTrabalho ) AS 
 SELECT P.idPessoa, CONCAT(P.primeiroNome, ' ', P.sobrenome), P.cpf, E.endereco, T.telefones, F.salario, F.idLoja
@@ -45,3 +45,4 @@ SELECT idPessoa, nome, endereco, telefones FROM dadosFuncionario WHERE lojaTraba
 
 DROP VIEW dadosFuncionario;
 
+commit;
