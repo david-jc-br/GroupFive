@@ -75,6 +75,43 @@ FROM Loja NATURAL JOIN Funcionario
 GROUP BY estado, nome, salario
 ORDER BY nome ASC, salario ASC;
 
+/*12 Recupera o nome, o estado e o total vendido de lojas em Minas Gerais ou lojas que venderam mais que 500 */
+SELECT L.nome, L.estado, L.totalVendido
+FROM Loja L
+WHERE estado = "MG" OR totalVendido > 500;
 
+/*13 Recupera o salario e o id da loja de funcionarios que não são motoristas */
+SELECT DISTINCT F.salario, F.idLoja
+FROM Funcionario F JOIN Motorista M
+WHERE F.idFuncionario NOT IN(SELECT M.idMotorista
+			     FROM Motorista M) ;
+                            
+/*14 Recupera o código e nome de produtos distintos que foram pedidos */
+SELECT DISTINCT P.codProduto, P.nome 
+FROM Produto P JOIN ProdutosPedido PP
+WHERE P.codProduto = PP.codProduto;
+
+/*15 Recupera o id das lojas que possuem (EXIST) um fucionário com sobrenome "Silva" */
+SELECT F.idLoja 
+FROM Funcionario F
+WHERE EXISTS (SELECT P.*
+	      FROM Pessoa P
+              WHERE P.idPessoa = F.idFuncionario AND P.sobrenome = "Silva");
+
+/*16 Recupera todos os produtos que são mais caros que "Par de Luvas" */
+SELECT P.nome, P.preco
+FROM Produto P
+WHERE P.preco >ALL(SELECT P.preco
+		   FROM Produto P
+		   WHERE P.nome = "Par de Luvas")
+ORDER BY P.preco ASC;
+
+/*17 Recupera o id e o salario dos funcionarios que ganham mais do que algum funcionário da loja 2*/
+SELECT F.idFuncionario, F.salario
+FROM Funcionario F
+WHERE F.salario >SOME(SELECT F.salario
+		      FROM Funcionario F
+		      WHERE F.idLoja = 2)
+ORDER BY F.salario ASC;
 
 commit;
