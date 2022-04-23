@@ -1,4 +1,4 @@
-/* (j) Criação de triggers para a consistência dos dados. */
+/* (j) Criação de triggers para a consistência dos dados e exemplificação. */
 
 USE LogisticaVendas;
 
@@ -84,6 +84,28 @@ BEGIN
 	UPDATE Cliente C
 	SET C.pedidosEfetuados = C.pedidosEfetuados + 1
 	WHERE C.idCliente = NEW.idCliente;
+END //
+DELIMITER ;
+
+-- Exemplo de trigger que adiciona funcionarios que recebem um aumento de salário numa tabela própria. --
+
+CREATE TABLE FuncionarioPromovido (
+	idFuncionario INT NOT NULL,
+    CONSTRAINT fk_idFuncionario
+		FOREIGN KEY (idFuncionario)
+		REFERENCES Funcionario (idFuncionario)
+		ON DELETE RESTRICT
+		ON UPDATE RESTRICT
+);
+
+DELIMITER //
+CREATE TRIGGER verificarPromocao
+AFTER UPDATE ON Funcionario
+FOR EACH ROW
+BEGIN
+  IF NEW.salario > OLD.salario THEN
+    INSERT INTO FuncionarioPromovido VALUE (NEW.idFuncionario);
+  END IF;
 END //
 DELIMITER ;
 
