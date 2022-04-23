@@ -2,7 +2,7 @@
 header("Content-Type: text/html; charset=UTF-8",true);
 ?>
 <html>
-<head><title>Incluir/Editar um cliente.</title></head>
+<head><title>Incluir/Editar uma pessoa.</title></head>
 <body>
 <body style ="background-color:silver;">
 <form name="form1" method="POST" action="incluir.php">
@@ -11,11 +11,11 @@ if(isset($_GET["idPessoa"])){
   include("./config.php");
   $con = mysqli_connect($host, $login, $senha, $bd);
 ?>
-  <center><h3>Editar Cliente</h3></center>
+  <center><h3>Editar Pessoa</h3></center>
 <?php
-  $sql = "SELECT pessoa.*, email
-          FROM pessoa JOIN cliente 
-          WHERE cliente.idCliente = pessoa.idPessoa AND idPessoa=".$_GET['idPessoa'];
+  $sql = "SELECT pessoa.*
+          FROM pessoa 
+          WHERE idPessoa=".$_GET['idPessoa'];
   $result = mysqli_query($con, $sql);
   $vetor = mysqli_fetch_array($result, MYSQLI_ASSOC);
   mysqli_close($con);
@@ -24,7 +24,7 @@ if(isset($_GET["idPessoa"])){
 <?php
 }else{
 ?>
-  <center><h3>Cadastrar Novo Cliente</h3></center>
+  <center><h3>Cadastrar Nova Pessoa</h3></center>
 <?php
 }
 ?>
@@ -54,7 +54,7 @@ if(isset($_GET["idPessoa"])){
 </tr>
 <tr><td width="20%">CEP:</td>
     <td colspan="2" width="90%">
-    <input type="text" name="cep" value="<?php echo @$vetor['CEP']; ?>" maxlength="8" size="8">
+    <input type="text" name="cep" value="<?php echo @$vetor['cep']; ?>" maxlength="8" size="8">
   </td>
 </tr>
 <tr><td width="20%">Bairro:</td>
@@ -73,11 +73,6 @@ if(isset($_GET["idPessoa"])){
 <tr><td width="20%">Complemento:</td>
   <td colspan="2" width="90%">
   <input type="text" name="complemento" value="<?php echo @$vetor['complemento']; ?>" maxlength="30" size="30">
-  </td> 
-</tr>
-<tr><td width="20%">E-mail:</td>
-  <td colspan="2" width="90%">
-  <input type="text" name="email" value="<?php echo @$vetor['email']; ?>" maxlength="40" size="30">
   </td> 
 </tr>
 <tr><td colspan="3" align="center">
