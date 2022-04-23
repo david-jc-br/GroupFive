@@ -75,6 +75,13 @@ FROM Loja NATURAL JOIN Funcionario
 GROUP BY estado, nome, salario
 ORDER BY nome ASC, salario ASC;
 
-
+/*12 Recupera o nome completo e o telefone de pessoas que são de Minas Gerais e possuem telefone com DDD diferente de 35 com o nome completo em ordem crescente*/
+SELECT DiSTINCT CONCAT(primeiroNome, " ", sobrenome) AS NomeCompleto, fone AS Telefone
+FROM Telefone NATURAL JOIN Pessoa
+WHERE fone NOT LIKE '35%' AND EXISTS(
+	SELECT * 
+	FROM Pessoa 
+	WHERE estado = 'MG')
+ORDER BY nomeCompleto ASC;
 
 commit;
