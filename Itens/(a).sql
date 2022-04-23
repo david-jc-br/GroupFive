@@ -11,14 +11,14 @@ USE LogisticaVendas;
 
 CREATE TABLE Pessoa (
 	idPessoa INT NOT NULL AUTO_INCREMENT,
-	cpf VARCHAR(11) NOT NULL,
+	cpf CHAR(11) NOT NULL,
 	primeiroNome VARCHAR(30) NOT NULL,
 	sobrenome VARCHAR(70) NOT NULL,
 	cidade VARCHAR(30) NOT NULL,
-	estado VARCHAR(45) NOT NULL,
-	cep VARCHAR(8) NOT NULL,
+	estado CHAR(2) NOT NULL,
+	cep CHAR(8) NOT NULL,
 	bairro VARCHAR(30) NULL,
-    rua VARCHAR(50) NOT NULL,
+    	rua VARCHAR(50) NOT NULL,
 	numero INT UNSIGNED NOT NULL,
 	complemento VARCHAR(30) NULL,
 	PRIMARY KEY (idPessoa),
@@ -40,7 +40,7 @@ CREATE TABLE Cliente (
 	idCliente INT NOT NULL,
 	email VARCHAR(40) NOT NULL,
 	pedidosEfetuados INT UNSIGNED NOT NULL DEFAULT 0,
-    totalGasto DECIMAL(8,2) NOT NULL DEFAULT 0.00,
+    	totalGasto DECIMAL(8,2) NOT NULL DEFAULT 0.00,
 	PRIMARY KEY (idCliente),
 	UNIQUE INDEX email_UNIQUE (email ASC) VISIBLE,
 	CONSTRAINT fk_ClientePessoa
@@ -52,14 +52,14 @@ CREATE TABLE Cliente (
 
 CREATE TABLE Loja (
 	idLoja INT NOT NULL,
-	cnpj VARCHAR(14) NOT NULL,
+	cnpj CHAR(14) NOT NULL,
 	nome VARCHAR(50) NOT NULL,
-	cep VARCHAR(8) NOT NULL,
+	cep CHAR(8) NOT NULL,
 	rua VARCHAR(50) NOT NULL,
 	numero INT UNSIGNED NOT NULL,
 	bairro VARCHAR(30) NULL,
 	cidade VARCHAR(30) NOT NULL,
-	estado VARCHAR(2) NOT NULL,
+	estado CHAR(2) NOT NULL,
 	qtdFuncionarios INT NULL DEFAULT 0,
 	totalVendido DECIMAL(12,2) NULL DEFAULT 0.00,
 	produtosVendidos INT NULL DEFAULT 0,
@@ -88,7 +88,7 @@ CREATE TABLE Funcionario (
 
 CREATE TABLE Motorista (
 	idMotorista INT NOT NULL,
-	regCNH VARCHAR(11) NOT NULL,
+	regCNH CHAR(11) NOT NULL,
 	habilitacao VARCHAR(2) NOT NULL,
 	PRIMARY KEY (idMotorista),
 	UNIQUE INDEX regCNH_UNIQUE (regCNH ASC) VISIBLE,
