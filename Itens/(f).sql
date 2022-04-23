@@ -72,7 +72,7 @@ WHERE quantidade IN (
 /*11 Recupera a média salarial de cada estado com salario e nome em ordem crescente */
 SELECT nome AS NomeLoja, AVG(salario) AS MediaSalarial, estado AS Estado
 FROM Loja NATURAL JOIN Funcionario
-GROUP BY estado
+GROUP BY estado,nome, salario
 ORDER BY nome ASC, salario ASC;
 
 commit;
