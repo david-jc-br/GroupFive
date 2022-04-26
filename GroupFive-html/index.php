@@ -2,7 +2,7 @@
 header("Content-Type: text/html; charset=UTF-8",true);
 ?>
 <html>
-<head><title>Logística de Vendas.</title></head>
+<head><title>Logística de Vendas</title></head>
 <body>
 <body style ="background-color:silver;">
 <center><h3>Pessoas</h3></center>
