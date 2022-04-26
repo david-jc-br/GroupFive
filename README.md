@@ -4,6 +4,6 @@
 * [ANTÔNIO MAURÍCIO LANZA DE SÁ E MELO MARQUES](https://github.com/amlsmm)
 * [DAVID DE JESUS COSTA](https://github.com/david-jc-br)
 * [EDUARDO DEZENA GONÇALVES](https://github.com/Dezena14)
-* [GUILHERME GREGO SANTOS](GregoSX)
-* [VICTOR GONÇALVES LIMA](Victorgonl)
+* [GUILHERME GREGO SANTOS](https://github.com/GregoSX)
+* [VICTOR GONÇALVES LIMA](https://github.com/Victorgonl)
 
