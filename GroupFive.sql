@@ -1,5 +1,5 @@
 /* -- Item (a): Criação de todas as tabelas e de todas as restrições de integridade.
---           Todas as restrições de chave (PRIMARY KEY) e de integridade referencial (FOREIGN KEY) devem ser criadas.
+--              Todas as restrições de chave (PRIMARY KEY) e de integridade referencial (FOREIGN KEY) devem ser criadas.
 
 -- Criação e utilização do esquema
 
@@ -593,7 +593,7 @@ DROP USER 'teste'@'localhost';
 */
 
 /* -- Item (i): Exemplos de 3 procedimentos/funções, com e sem parâmetros, de entrada e de saída,
---           contendo alguns comandos tais como IF, CASE WHEN, WHILE, declaração de variáveis e funções prontas.
+--              contendo alguns comandos tais como IF, CASE WHEN, WHILE, declaração de variáveis e funções prontas.
 
 USE LogisticaVendas;
 
@@ -662,7 +662,7 @@ DROP PROCEDURE ProdutoMaisCaro;
 */
 
 /* -- Item (j): Exemplos de 3 triggers, um para cada evento (inserção, alteração e exclusão).
---           Inclua exemplos de como disparar os triggers.
+--              Inclua exemplos de como disparar os triggers.
 
 USE LogisticaVendas;
 
