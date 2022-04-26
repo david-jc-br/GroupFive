@@ -2,19 +2,19 @@
 header("Content-Type: text/html; charset=UTF-8",true);
 ?>
 <html>
-<head><title>Incluir/Editar uma pessoa.</title></head>
+<head><title>Incluir/Editar uma Pessoa.</title></head>
 <body>
 <body style ="background-color:silver;">
 <form name="form1" method="POST" action="incluir.php">
 <?php
-if(isset($_GET["idPessoa"])){	
+if(isset($_GET["idPessoa"])){
   include("./config.php");
   $con = mysqli_connect($host, $login, $senha, $bd);
 ?>
   <center><h3>Editar Pessoa</h3></center>
 <?php
-  $sql = "SELECT pessoa.*
-          FROM pessoa 
+  $sql = "SELECT Pessoa.*
+          FROM Pessoa
           WHERE idPessoa=".$_GET['idPessoa'];
   $result = mysqli_query($con, $sql);
   $vetor = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -73,7 +73,7 @@ if(isset($_GET["idPessoa"])){
 <tr><td width="20%">Complemento:</td>
   <td colspan="2" width="90%">
   <input type="text" name="complemento" value="<?php echo @$vetor['complemento']; ?>" maxlength="30" size="30">
-  </td> 
+  </td>
 </tr>
 <tr><td colspan="3" align="center">
       <input type="submit" value="Salvar">

@@ -19,4 +19,4 @@ será utilizado na entrega de um pedido. Na loja, o veículo utilizado na entreg
 caminhão ou uma moto. É importante saber a placa do veículo para sua identificação na entrega 
 do pedido.
 
-![modeloRelacional](https://user-images.githubusercontent.com/73839667/158701094-44a8fd59-e3cc-44f8-9325-d54583dbc620.png)
+![modeloRelacional](./GroupFive.png)

@@ -11,14 +11,14 @@ header("Content-Type: text/html; charset=UTF-8",true);
 <?php
 include("./config.php");
 $con = mysqli_connect($host, $login, $senha, $bd);
-$sql = "SELECT pessoa.*
-        FROM pessoa 
+$sql = "SELECT Pessoa.*
+        FROM Pessoa
         ORDER BY primeiroNome";
 $tabela = mysqli_query($con, $sql);
 if(mysqli_num_rows($tabela)==0){
 ?>
   <tr><td align="center">Nenhuma pessoa cadastrada.</td></tr>
-  <tr><td align="center"><input type="submit" value="incluir pessoa"></td></tr>
+  <tr><td align="center"><input type="submit" value="incluir Pessoa"></td></tr>
 <?php
 }else{
 ?>

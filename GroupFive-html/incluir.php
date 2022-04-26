@@ -2,10 +2,10 @@
   include("./config.php");
   $con = mysqli_connect($host, $login, $senha, $bd);
   if(isset($_POST["idPessoa"])){
-    $sql = "SELECT idPessoa FROM pessoa WHERE idPessoa=".$_POST["idPessoa"];
+    $sql = "SELECT idPessoa FROM Pessoa WHERE idPessoa=".$_POST["idPessoa"];
     $result = mysqli_query($con, $sql);
     if(mysqli_num_rows($result)!=0){
-      $sql = "UPDATE pessoa
+      $sql = "UPDATE Pessoa
               SET cpf         ='".$_POST["cpf"]."',
                   primeiroNome='".$_POST["primeiroNome"]."',
                   sobrenome='"   .$_POST["sobrenome"]."',
@@ -20,7 +20,7 @@
     }
   }
   else{
-    $sql = "INSERT INTO pessoa VALUES (null,
+    $sql = "INSERT INTO Pessoa VALUES (null,
                                             '".$_POST["cpf"]."',
                                             '".$_POST["primeiroNome"]."',
                                             '".$_POST["sobrenome"]."',
