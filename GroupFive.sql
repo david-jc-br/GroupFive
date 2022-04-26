@@ -1,4 +1,4 @@
-/* (a) Criação de todas as tabelas e de todas as restrições de integridade.
+/* Item (a) Criação de todas as tabelas e de todas as restrições de integridade.
        Todas as restrições de chave (PRIMARY KEY) e de integridade referencial (FOREIGN KEY) devem ser criadas. */
 
 -- Criação e utilização do esquema --
@@ -169,7 +169,7 @@ CREATE TABLE ProdutosPedido (
 );
 
 
-/*(b) Exemplos de ALTER TABLE e DROP TABLE. */
+/* Item (b) Exemplos de ALTER TABLE e DROP TABLE. */
 
 USE LogisticaVendas;
 
@@ -199,7 +199,7 @@ FROM ClienteBloqueado;
 DROP TABLE ClienteBloqueado; 
 
 
-/* (c) Exemplos de inserção de dados nas tabelas. */
+/* Item (c) Exemplos de inserção de dados nas tabelas. */
 
 USE LogisticaVendas;
 
@@ -322,7 +322,7 @@ INSERT INTO ProdutosPedido (numPedido, codProduto, quantidade, precoVendido)
 VALUES(4, 18, 2, 850.00);
 
 
-/* (d) Exemplos de modificação de dados em 5 tabelas. */
+/* Item (d) Exemplos de modificação de dados em 5 tabelas. */
 
 USE LogisticaVendas;
 
@@ -346,12 +346,12 @@ UPDATE Telefone
 SET fone = fone + 1
 WHERE idPessoa > 5;
 
-UPDATE motorista
+UPDATE Motorista
 SET habilitacao = "AB"
 WHERE idMotorista = 7;
 
 
-/* (e) Exemplos de exclusão de dados em 5 tabelas. */
+/* Item Item (e) Exemplos de exclusão de dados em 5 tabelas. */
 
 USE LogisticaVendas;
 
@@ -380,10 +380,9 @@ WHERE fone NOT LIKE '35%' AND EXISTS(
 	FROM Pessoa
 	WHERE estado = 'MG'
 );
-COMMIT;
 
 
-/* (f) Exemplos de, pelo menos, 12 consultas. */
+/* Item (f) Exemplos de, pelo menos, 12 consultas. */
 
 USE LogisticaVendas;
 
@@ -409,25 +408,24 @@ GROUP BY M.idMotorista;
 /*4. Recupera o nome, o valor e quantidade de vezes que um produto aparece nos pedidos. Apenas para
      produtos que estão contido em mais de um pedido */
 SELECT nome, preco, COUNT(*) qtdePedida
-FROM produto NATURAL JOIN produtospedido
+FROM Produto NATURAL JOIN ProdutosPedido
 GROUP BY codProduto
 HAVING qtdePedida > 1;
 
 /*5.Recupera o nome, endereço e a identificação da loja em que trabalha o funcionário que tem a letra A no
     fim do primeiro nome */
-SELECT CONCAT(P.primeiroNome, " ", P.sobrenome) AS nome, rua, numero, bairro, cep, cidade, estado,
-idLoja
-FROM pessoa P JOIN funcionario F ON P.idPessoa = F.idFuncionario
+SELECT CONCAT(P.primeiroNome, " ", P.sobrenome) AS nome, rua, numero, bairro, cep, cidade, estado, idLoja
+FROM Pessoa P JOIN Funcionario F ON P.idPessoa = F.idFuncionario
 WHERE P.primeiroNome LIKE '%a';
 
 /*6. Recupera o numero e o valor do pedido, onde a distancia da entrega está entre 5 e 25 km ou o valor do
      pedido seja maior que 5000*/
 SELECT numPedido, valor
-FROM pedido
+FROM Pedido
 WHERE distanciaEntrega BETWEEN 5 and 30
 UNION
 SELECT numPedido, valor
-FROM pedido
+FROM Pedido
 WHERE valor > 5000;
 
 /*7. Seleciona a identificação do cliente e da loja que pediram o produto de codigo 2 */
@@ -515,7 +513,7 @@ WHERE F.salario > SOME(
 ORDER BY F.salario ASC;
 
 
-/* (g) Exemplos de criação de 3 visões (Views). */
+/* Item (g) Exemplos de criação de 3 visões (Views). */
 
 USE LogisticaVendas;
 
@@ -524,54 +522,69 @@ CREATE VIEW PedidosDeProdutos AS
 SELECT codProduto, COUNT(numPedido) AS qtdePedida, SUM(preco) AS valorTotalPedido
 FROM ProdutosPedido NATURAL JOIN Produto
 GROUP BY codProduto;
+
 SELECT codProduto, qtdePedida FROM PedidosDeProdutos ORDER BY qtdePedida DESC;
+
 DROP VIEW PedidosDeProdutos;
 
 /* Visao que armazena os dados do endereco de uma pessoa em apenas uma coluna */
 CREATE VIEW enderecoPessoa AS
 SELECT idPessoa, CONCAT(rua,', ', numero, ', ',bairro,', ', cidade, ', ', estado, ', ',cep) AS endereco, complemento FROM Pessoa;
+
 SELECT endereco, complemento FROM enderecoPessoa WHERE idPessoa = 8;
+
 SELECT idPessoa, endereco FROM enderecoPessoa WHERE endereco LIKE '%MG%';
+
 DROP VIEW enderecoPessoa;
 
 /* Visao que armazena os telefones de uma pessoa em apenas uma coluna */
-CREATE VIEW telefonesPessoa (idPessoa, telefones)AS
+CREATE VIEW telefonesPessoa (idPessoa, telefones) AS
 SELECT idPessoa, GROUP_CONCAT(fone) AS fones
 FROM Telefone
 GROUP BY idPessoa;
+
 SELECT telefones FROM telefonesPessoa WHERE idPessoa = 1;
+
 DROP VIEW telefonesPessoa;
 
 /* Visao que armazena os dados principais de um funcionario */
 CREATE VIEW dadosFuncionario (idPessoa, nome, cpf, endereco, telefones, salario, lojaTrabalho ) AS
-SELECT P.idPessoa, CONCAT(P.primeiroNome, ' ', P.sobrenome), P.cpf, E.endereco, T.telefones,
-F.salario, F.idLoja
+SELECT P.idPessoa, CONCAT(P.primeiroNome, ' ', P.sobrenome), P.cpf, E.endereco, T.telefones, F.salario, F.idLoja
 FROM Pessoa AS P, enderecoPessoa AS E, Funcionario AS F, telefonesPessoa AS T
-WHERE P.idPessoa = F.idFuncionario AND P.idPessoa = E.idPessoa AND T.idPessoa = P.idPessoa;SELECT * FROM dadosFuncionario;
+WHERE P.idPessoa = F.idFuncionario AND P.idPessoa = E.idPessoa AND T.idPessoa = P.idPessoa;
+
+SELECT * FROM dadosFuncionario;
+
 SELECT idPessoa, nome, endereco, telefones FROM dadosFuncionario WHERE lojaTrabalho = 1;
+
 DROP VIEW dadosFuncionario;
 
 
-/* (h) Exemplos de criação de usuários (pelo menos 2), concessão (GRANT) e revocação (REVOKE) de permissão de acesso. */
+/* Item (h) Exemplos de criação de usuários (pelo menos 2), concessão (GRANT) e revocação (REVOKE) de permissão de acesso. */
 
 USE LogisticaVendas;
 
 /* Criação de um usuário que tem permissão de selecionar dados dos veículos utilizados para entrega e
 executar um store producere. */
-
 CREATE USER 'guilherme'@'localhost' IDENTIFIED BY '0000';
+
 GRANT SELECT ON LogisticaVendas.veiculoentrega TO 'guilherme'@'localhost';
+
 REVOKE SELECT ON LogisticaVendas.veiculoentrega FROM 'guilherme'@'localhost';
+
 GRANT EXECUTE ON PROCEDURE LogisticaVendas.InfosDaLoja TO 'guilherme'@'localhost';
+
 DROP USER 'guilherme'@'localhost';
 
 /* Criação de um usuário que tem permissão de selecionar dados de todas as tabelas */
 CREATE USER 'teste'@'localhost' IDENTIFIED BY '1111';
+
 GRANT SELECT ON LogisticaVendas.* TO 'teste'@'localhost';
+
 DROP USER 'teste'@'localhost';
 
 
-/* (i) Exemplos de 3 procedimentos/funções, com e sem parâmetros, de entrada e de saída,
+/* Item (i) Exemplos de 3 procedimentos/funções, com e sem parâmetros, de entrada e de saída,
        contendo alguns comandos tais como IF, CASE WHEN, WHILE, declaração de variáveis e funções prontas. */
 
 USE LogisticaVendas;
@@ -618,7 +631,7 @@ BEGIN
 	DECLARE i INT DEFAULT 0;
 	DECLARE PrecoComp DECIMAL(6,2) DEFAULT 0;
 	DECLARE nomeComp VARCHAR(30);
-	DECLARE meuCursor CURSOR FOR SELECT preco, nome FROM produto;
+	DECLARE meuCursor CURSOR FOR SELECT preco, nome FROM Produto;
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET i = 1;
 	OPEN meuCursor;
 	WHILE(i != 1) DO 
@@ -634,10 +647,12 @@ DELIMITER ;
 
 CALL ProdutoMaisCaro(@nomeA, @resultado1);
 
-SELECT @nomeA AS nome, @resultado1 AS Preço;DROP PROCEDURE ProdutoMaisCaro;
+SELECT @nomeA AS nome, @resultado1 AS Preço;
+
+DROP PROCEDURE ProdutoMaisCaro;
 
 
-/* (j) Exemplos de 3 triggers, um para cada evento (inserção, alteração e exclusão). Inclua
+/* Item (j) Exemplos de 3 triggers, um para cada evento (inserção, alteração e exclusão). Inclua
        exemplos de como disparar os triggers. */
 
 USE LogisticaVendas;
