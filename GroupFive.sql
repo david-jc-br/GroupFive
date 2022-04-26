@@ -1,6 +1,5 @@
-/* (a) Criação de todas as tabelas e de todas as restrições de integridade. Todas as
-restrições de chave (PRIMARY KEY) e de integridade referencial (FOREIGN KEY)
-devem ser criadas. */
+/* (a) Criação de todas as tabelas e de todas as restrições de integridade.
+       Todas as restrições de chave (PRIMARY KEY) e de integridade referencial (FOREIGN KEY) devem ser criadas. */
 
 -- Criação e utilização do esquema --
 
