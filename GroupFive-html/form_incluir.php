@@ -2,7 +2,7 @@
 header("Content-Type: text/html; charset=UTF-8",true);
 ?>
 <html>
-<head><title>Incluir/Editar uma Pessoa.</title></head>
+<head><title>Incluir/Editar uma pessoa.</title></head>
 <body>
 <body style ="background-color:silver;">
 <form name="form1" method="POST" action="incluir.php">
@@ -11,7 +11,7 @@ if(isset($_GET["idPessoa"])){
   include("./config.php");
   $con = mysqli_connect($host, $login, $senha, $bd);
 ?>
-  <center><h3>Editar Pessoa</h3></center>
+  <center><h3>Editar pessoa</h3></center>
 <?php
   $sql = "SELECT Pessoa.*
           FROM Pessoa
@@ -24,7 +24,7 @@ if(isset($_GET["idPessoa"])){
 <?php
 }else{
 ?>
-  <center><h3>Cadastrar Nova Pessoa</h3></center>
+  <center><h3>Cadastrar nova pessoa</h3></center>
 <?php
 }
 ?>
@@ -49,7 +49,7 @@ if(isset($_GET["idPessoa"])){
 </tr>
 <tr><td width="20%">Estado:</td>
     <td colspan="2" width="90%">
-    <input type="text" name="estado" value="<?php echo @$vetor['estado']; ?>" maxlength="45" size="30">
+    <input type="text" name="estado" value="<?php echo @$vetor['estado']; ?>" maxlength="2" size="30">
   </td>
 </tr>
 <tr><td width="20%">CEP:</td>

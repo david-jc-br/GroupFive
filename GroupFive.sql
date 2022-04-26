@@ -85,6 +85,7 @@ CREATE TABLE Funcionario (
 	REFERENCES Loja (idLoja)
 	ON DELETE RESTRICT
 	ON UPDATE RESTRICT);
+    
 	CREATE TABLE Motorista (
 	idMotorista INT NOT NULL,
 	regCNH CHAR(11) NOT NULL,
@@ -140,7 +141,9 @@ CREATE TABLE Pedido (
 	REFERENCES VeiculoEntrega (idVeiculo)
 	ON DELETE RESTRICT
 	ON UPDATE RESTRICT
-	);CREATE TABLE Produto (
+	);
+    
+    CREATE TABLE Produto (
 	codProduto VARCHAR(14) NOT NULL,
 	preco DECIMAL(6,2) NOT NULL,
 	nome VARCHAR(30) NOT NULL,
@@ -173,25 +176,28 @@ USE LogisticaVendas;
 
 CREATE TABLE ClienteBloqueado (
 	idCliente INT NOT NULL,
-	totalPedidos INT NOT NULL
+    totalPedidos INT NOT NULL
 );
 
-INSERT INTO clienteBloqueado VALUES (1, 20);
 SELECT *
 FROM ClienteBloqueado;
 
-ALTER TABLE ClienteBloqueado ADD COLUMN cpf CHAR(11) NULL;
+ALTER TABLE ClienteBloqueado 
+ADD COLUMN cpf CHAR(11) NULL;
 
-ALTER TABLE ClienteBloqueado DROP COLUMN totalPedidos CASCADE;
+ALTER TABLE ClienteBloqueado 
+DROP COLUMN totalPedidos
+CASCADE;
 
-ALTER TABLE ClienteBloqueado ADD CONSTRAINT fk_BloqueadoCliente FOREIGN KEY (idCliente)
-REFERENCES Cliente (idCliente);SELECT *
-FROM ClienteBloqueado;
+ALTER TABLE ClienteBloqueado
+ADD CONSTRAINT fk_BloqueadoCliente
+	FOREIGN KEY (idCliente)
+	REFERENCES Cliente (idCliente);
 
 SELECT *
 FROM ClienteBloqueado;
 
-DROP TABLE ClienteBloqueado;
+DROP TABLE ClienteBloqueado; 
 
 
 /* (c) Exemplos de inserção de dados nas tabelas. */
@@ -247,20 +253,11 @@ INSERT INTO Cliente (idCliente, email) VALUES (6, "nescau_radical@email.com");
 
 -- Exemplo de inserção de dados na tabela Loja --
 
-INSERT INTO Loja (idLoja, cnpj, nome, cep, rua, numero, bairro, cidade, estado)
-VALUES (1, "23456", "Mercenaria Azul", "62011177", "Rua da Aleatoria", 127, "Bairro Final", "São Paulo",
-"SP");
-INSERT INTO Loja (idLoja, cnpj, nome, cep, rua, numero, bairro, cidade, estado)
-VALUES (2, "12345678998765", "Papelaria X", "62011140", "Rua Domingos Olímpio", 35, "Centro",
-"Lavras", "MG");
-INSERT INTO Loja (idLoja, cnpj, nome, cep, rua, numero, bairro, cidade, estado)
-VALUES (3, "45256255221114", "Sapataria V", "04302021", "Rua Paracatu", 47, "Parque Imperial", "São
-Paulo", "SP");
-INSERT INTO Loja (idLoja, cnpj, nome, cep, rua, numero, bairro, cidade, estado)
-VALUES (4,"73182454000102","Orient","32143290","Rua B","17","Colorado","Contagem","MG");
-INSERT INTO Loja (idLoja, cnpj, nome, cep, rua, numero, bairro, cidade, estado)
-VALUES (5,"37243428000175", "Fluxo de Dados", "79050300","Rua Geraldo Castelo", "99", "Jardim
-Paulista", "Campo Grande", "MS");
+INSERT INTO Loja (idLoja, cnpj, nome, cep, rua, numero, bairro, cidade, estado) VALUES (1, "23456", "Mercenaria Azul", "62011177", "Rua da Aleatoria", 127, "Bairro Final", "São Paulo", "SP");
+INSERT INTO Loja (idLoja, cnpj, nome, cep, rua, numero, bairro, cidade, estado) VALUES (2, "12345678998765", "Papelaria X", "62011140", "Rua Domingos Olímpio", 35, "Centro", "Lavras", "MG");
+INSERT INTO Loja (idLoja, cnpj, nome, cep, rua, numero, bairro, cidade, estado) VALUES (3, "45256255221114", "Sapataria V", "04302021", "Rua Paracatu", 47, "Parque Imperial", "São Paulo", "SP");
+INSERT INTO Loja (idLoja, cnpj, nome, cep, rua, numero, bairro, cidade, estado) VALUES (4,"73182454000102","Orient","32143290","Rua B","17","Colorado","Contagem","MG");
+INSERT INTO Loja (idLoja, cnpj, nome, cep, rua, numero, bairro, cidade, estado) VALUES (5,"37243428000175", "Fluxo de Dados", "79050300","Rua Geraldo Castelo", "99", "Jardim Paulista", "Campo Grande", "MS");
 
 -- Exemplo de inserção de dados na tabela Funcionario --
 
@@ -336,7 +333,9 @@ WHERE idloja = 4;
 
 UPDATE Produto P
 SET preco = "23.35"
-WHERE P.nome = "Par de luvas";UPDATE Pedido P
+WHERE P.nome = "Par de luvas";
+
+UPDATE Pedido P
 SET valor = valor - 10
 WHERE idCliente IN (
 	SELECT idCliente
@@ -378,9 +377,10 @@ WHERE email LIKE 'david@email.com';
 /*5 Deleta telefones pessoas do estado de MG com DDD diferente de 35*/
 DELETE FROM Telefone
 WHERE fone NOT LIKE '35%' AND EXISTS(
-SELECT *
-FROM Pessoa
-WHERE estado = 'MG');
+	SELECT *
+	FROM Pessoa
+	WHERE estado = 'MG'
+);
 COMMIT;
 
 
@@ -389,18 +389,17 @@ COMMIT;
 USE LogisticaVendas;
 
 /* 1. Recupera o nome completo, o CPF e o salario de pessoas que são funcionários de uma loja
-Lavras em ordem decrescente de salário */
+      da cidade de Lavras em ordem decrescente de salário */
 SELECT CONCAT(P.primeiroNome, " ", P.sobrenome) AS nome, P.cpf, F.salario
-FROM Pessoa P, Funcionario F, Loja L
-da cidade deWHERE P.idPessoa = F.idFuncionario AND F.idloja = L.idLoja AND L.cidade = "Lavras" ORDER BY salario
-DESC, P.primeiroNome ASC, P.sobrenome ASC;
+FROM Pessoa P, Funcionario F, Loja L 
+WHERE P.idPessoa = F.idFuncionario AND F.idloja = L.idLoja AND L.cidade = "Lavras" 
+ORDER BY salario DESC, P.primeiroNome ASC, P.sobrenome ASC;
 
 /* 2. Recupera o nome completo, o CPF e o email de clientes que não fizeram nenhum pedido
-em ordem
-alfabética de nomes.*/
+      em ordem alfabética de nomes.*/
 SELECT CONCAT(P.primeiroNome, " ", P.sobrenome) AS nome, P.cpf, C.email
-FROM Cliente C LEFT OUTER JOIN Pedido Pd ON C.idCliente = Pd.idCliente, Pessoa P WHERE P.idPessoa
-= C.idCliente AND Pd.idCliente IS NULL;
+FROM Cliente C LEFT OUTER JOIN Pedido Pd ON C.idCliente = Pd.idCliente, Pessoa P
+WHERE P.idPessoa = C.idCliente AND Pd.idCliente IS NULL;
 
 /* 3. Recupera o nome completo, o registro da CNH e o número de veículos que um motorista trabalha */
 SELECT CONCAT(P.primeiroNome, " ", P.sobrenome) AS nome, M.regCNH, COUNT(*) AS numeroVeiculos
@@ -409,21 +408,21 @@ WHERE idPessoa = idFuncionario AND idFuncionario = idMotorista
 GROUP BY M.idMotorista;
 
 /*4. Recupera o nome, o valor e quantidade de vezes que um produto aparece nos pedidos. Apenas para
-produtos que estão contido em mais de um pedido */
+     produtos que estão contido em mais de um pedido */
 SELECT nome, preco, COUNT(*) qtdePedida
 FROM produto NATURAL JOIN produtospedido
 GROUP BY codProduto
 HAVING qtdePedida > 1;
 
 /*5.Recupera o nome, endereço e a identificação da loja em que trabalha o funcionário que tem a letra A no
-fim do primeiro nome */
+    fim do primeiro nome */
 SELECT CONCAT(P.primeiroNome, " ", P.sobrenome) AS nome, rua, numero, bairro, cep, cidade, estado,
 idLoja
 FROM pessoa P JOIN funcionario F ON P.idPessoa = F.idFuncionario
 WHERE P.primeiroNome LIKE '%a';
 
 /*6. Recupera o numero e o valor do pedido, onde a distancia da entrega está entre 5 e 25 km ou o valor do
-pedido seja maior que 5000*/
+     pedido seja maior que 5000*/
 SELECT numPedido, valor
 FROM pedido
 WHERE distanciaEntrega BETWEEN 5 and 30
@@ -443,7 +442,7 @@ From Telefone AS T, Pessoa AS P, Funcionario AS F
 WHERE fone LIKE '35%' AND F.idFuncionario = P.idPessoa AND T.idPessoa = P.idPessoa;
 
 /*9. Seleciona a identificação da loja, soma os salarios dos funcionarios e conta a quantidade de funcionarios,
-em que a soma dos salários é maior que 1000 e ordenando em ordem crescente */
+     em que a soma dos salários é maior que 1000 e ordenando em ordem crescente */
 SELECT idLoja, COUNT(*) AS qtdeFuncs, SUM(salario) AS SomaSalarios
 FROM Funcionario GROUP BY idLoja
 HAVING SomaSalarios > 1000 ORDER BY SomaSalarios ASC;
@@ -452,8 +451,9 @@ HAVING SomaSalarios > 1000 ORDER BY SomaSalarios ASC;
 SELECT nome AS nome_do_produto, quantidade AS maior_quantidade_pedida
 FROM ProdutosPedido NATURAL JOIN Produto
 WHERE quantidade IN (
-SELECT MAX(quantidade)
-FROM ProdutosPedido);
+	SELECT MAX(quantidade)
+	FROM ProdutosPedido
+);
 
 /*11 Recupera a média salarial de cada estado com salario e nome em ordem crescente */ SELECT nome AS
 NomeLoja, AVG(salario) AS MediaSalarial, estado AS Estado
@@ -462,17 +462,17 @@ GROUP BY estado, nome, salario
 ORDER BY nome ASC, salario ASC;
 
 /*12 Recupera o nome completo e o telefone de pessoas que são de Minas Gerais e possuem telefone com DDD
-diferente de 35 com o nome completo em ordem crescente*/
+     diferente de 35 com o nome completo em ordem crescente*/
 SELECT DiSTINCT CONCAT(primeiroNome, " ", sobrenome) AS NomeCompleto, fone AS Telefone
 FROM Telefone NATURAL JOIN Pessoa
 WHERE fone NOT LIKE '35%' AND EXISTS(
-SELECT *
-FROM Pessoa
-WHERE estado = 'MG')
+	SELECT *
+	FROM Pessoa
+	WHERE estado = 'MG'
+)
 ORDER BY nomeCompleto ASC;
 
-/*13 Recupera o nome, o estado e o total vendido de lojas em Minas Gerais ou lojas que venderam mais que 500
-*/
+/*13 Recupera o nome, o estado e o total vendido de lojas em Minas Gerais ou lojas que venderam mais que 500 */
 SELECT L.nome, L.estado, L.totalVendido
 FROM Loja L
 WHERE estado = "MG" OR totalVendido > 500;
@@ -480,8 +480,10 @@ WHERE estado = "MG" OR totalVendido > 500;
 /*14 Recupera o salário e o id da loja de funcionários que não são motoristas */
 SELECT DISTINCT F.salario, F.idLoja
 FROM Funcionario F JOIN Motorista M
-WHERE F.idFuncionario NOT IN(SELECT M.idMotorista
-FROM Motorista M);
+WHERE F.idFuncionario NOT IN (
+	SELECT M.idMotorista
+	FROM Motorista M
+);
 
 /*15 Recupera o código e nome de produtos distintos que foram pedidos */
 SELECT DISTINCT P.codProduto, P.nome
@@ -528,8 +530,7 @@ DROP VIEW PedidosDeProdutos;
 
 /* Visao que armazena os dados do endereco de uma pessoa em apenas uma coluna */
 CREATE VIEW enderecoPessoa AS
-SELECT idPessoa, CONCAT(rua,', ', numero, ', ',bairro,', ', cidade, ', ', estado, ', ',cep) AS endereco,
-complemento FROM Pessoa;
+SELECT idPessoa, CONCAT(rua,', ', numero, ', ',bairro,', ', cidade, ', ', estado, ', ',cep) AS endereco, complemento FROM Pessoa;
 SELECT endereco, complemento FROM enderecoPessoa WHERE idPessoa = 8;
 SELECT idPessoa, endereco FROM enderecoPessoa WHERE endereco LIKE '%MG%';
 DROP VIEW enderecoPessoa;
@@ -558,6 +559,7 @@ USE LogisticaVendas;
 
 /* Criação de um usuário que tem permissão de selecionar dados dos veículos utilizados para entrega e
 executar um store producere. */
+
 CREATE USER 'guilherme'@'localhost' IDENTIFIED BY '0000';
 GRANT SELECT ON LogisticaVendas.veiculoentrega TO 'guilherme'@'localhost';
 REVOKE SELECT ON LogisticaVendas.veiculoentrega FROM 'guilherme'@'localhost';
@@ -579,9 +581,9 @@ USE LogisticaVendas;
 DELIMITER //
 CREATE PROCEDURE InfosDaLoja(IN pIdLoja DECIMAL(2))
 BEGIN
-SELECT nome, produtosVendidos
-FROM Loja
-WHERE idLoja = pIdLoja;
+	SELECT nome, produtosVendidos
+	FROM Loja
+	WHERE idLoja = pIdLoja;
 END //
 DELIMITER ;
 
@@ -595,12 +597,11 @@ DROP PROCEDURE InfosDaloja;
 
 /* Retorna a quantidade de numero de telefone cadastrado de uma pessoa, dado seu nome */
 DELIMITER //
-CREATE PROCEDURE NroTelDePessoa(IN pPrimeiroNome varchar(30), IN pSobrenome varchar(70), OUT
-pNumTel DECIMAL(4))
+CREATE PROCEDURE NroTelDePessoa(IN pPrimeiroNome varchar(30), IN pSobrenome varchar(70), OUT pNumTel DECIMAL(4))
 BEGIN
-SELECT Count(*) INTO pNumTel
-FROM Pessoa NATURAL JOIN Telefone
-WHERE primeiroNome = pPrimeiroNome AND sobrenome = pSobrenome;
+	SELECT Count(*) INTO pNumTel
+	FROM Pessoa NATURAL JOIN Telefone
+	WHERE primeiroNome = pPrimeiroNome AND sobrenome = pSobrenome;
 END //
 DELIMITER ;
 
@@ -614,20 +615,21 @@ DROP PROCEDURE NroTelDePessoa;
 DELIMITER //
 CREATE PROCEDURE ProdutoMaisCaro (OUT nomeSaida VARCHAR(30), OUT resultado DECIMAL(6,2))
 BEGIN
-DECLARE valor DECIMAL(6,2) DEFAULT 0;
-DECLARE i INT DEFAULT 0;
-DECLARE PrecoComp DECIMAL(6,2) DEFAULT 0;
-DECLARE nomeComp VARCHAR(30);
-DECLARE meuCursor CURSOR FOR SELECT preco, nome FROM produto;
-DECLARE CONTINUE HANDLER FOR NOT FOUND SET i = 1;
-OPEN meuCursor;
-WHILE(i != 1) DO FETCH meuCursor INTO PrecoComp, nomeComp;
-IF PrecoComp > valor THEN SET valor = PrecoComp;
-SET nomeSaida = nomeComp;
-END IF;
-END WHILE;
-SET resultado = valor;
-CLOSE meuCursor;
+	DECLARE valor DECIMAL(6,2) DEFAULT 0;
+	DECLARE i INT DEFAULT 0;
+	DECLARE PrecoComp DECIMAL(6,2) DEFAULT 0;
+	DECLARE nomeComp VARCHAR(30);
+	DECLARE meuCursor CURSOR FOR SELECT preco, nome FROM produto;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET i = 1;
+	OPEN meuCursor;
+	WHILE(i != 1) DO 
+		FETCH meuCursor INTO PrecoComp, nomeComp;
+		IF PrecoComp > valor THEN SET valor = PrecoComp;
+			SET nomeSaida = nomeComp;
+		END IF;
+	END WHILE;
+	SET resultado = valor;
+	CLOSE meuCursor;
 END //
 DELIMITER ;
 
@@ -637,7 +639,7 @@ SELECT @nomeA AS nome, @resultado1 AS Preço;DROP PROCEDURE ProdutoMaisCaro;
 
 
 /* (j) Exemplos de 3 triggers, um para cada evento (inserção, alteração e exclusão). Inclua
-exemplos de como disparar os triggers. */
+       exemplos de como disparar os triggers. */
 
 USE LogisticaVendas;
 
@@ -647,9 +649,9 @@ CREATE TRIGGER adicionarFuncionario
 AFTER INSERT ON Funcionario
 FOR EACH ROW
 BEGIN
-UPDATE Loja L
-SET L.qtdFuncionarios = L.qtdFuncionarios + 1
-WHERE L.idLoja = NEW.idLoja;
+	UPDATE Loja L
+	SET L.qtdFuncionarios = L.qtdFuncionarios + 1
+	WHERE L.idLoja = NEW.idLoja;
 END //
 DELIMITER ;
 
@@ -658,9 +660,9 @@ CREATE TRIGGER removerFuncionario
 AFTER DELETE ON Funcionario
 FOR EACH ROW
 BEGIN
-UPDATE Loja L
-SET L.qtdFuncionarios = L.qtdFuncionarios - 1
-WHERE L.idLoja = OLD.idLoja;
+	UPDATE Loja L
+	SET L.qtdFuncionarios = L.qtdFuncionarios - 1
+	WHERE L.idLoja = OLD.idLoja;
 END //
 DELIMITER ;
 
@@ -670,9 +672,9 @@ CREATE TRIGGER valorPedido
 AFTER INSERT ON ProdutosPedido
 FOR EACH ROW
 BEGIN
-UPDATE Pedido P
-SET P.valor = P.valor + NEW.quantidade * New.precoVendido
-WHERE P.numPedido = NEW.numPedido;
+	UPDATE Pedido P
+	SET P.valor = P.valor + NEW.quantidade * New.precoVendido
+	WHERE P.numPedido = NEW.numPedido;
 END //
 DELIMITER ;
 
@@ -682,8 +684,8 @@ CREATE TRIGGER totalVendidoLoja
 AFTER INSERT ON ProdutosPedido
 FOR EACH ROW
 BEGIN
-UPDATE Loja L, Pedido PSET L.totalVendido = L.totalVendido + NEW.quantidade * New.precoVendido
-WHERE P.numPedido = NEW.numPedido AND L.idLoja = P.idLoja;
+	UPDATE Loja L, Pedido P SET L.totalVendido = L.totalVendido + NEW.quantidade * New.precoVendido
+	WHERE P.numPedido = NEW.numPedido AND L.idLoja = P.idLoja;
 END //
 DELIMITER ;
 
@@ -692,9 +694,9 @@ CREATE TRIGGER produtosVendidosLoja
 AFTER INSERT ON ProdutosPedido
 FOR EACH ROW
 BEGIN
-UPDATE Loja L, Pedido P
-SET L.produtosVendidos = L.produtosVendidos + NEW.quantidade
-WHERE P.numPedido = NEW.numPedido AND L.idLoja = P.idLoja;
+	UPDATE Loja L, Pedido P
+	SET L.produtosVendidos = L.produtosVendidos + NEW.quantidade
+	WHERE P.numPedido = NEW.numPedido AND L.idLoja = P.idLoja;
 END //
 DELIMITER ;
 
@@ -704,9 +706,9 @@ CREATE TRIGGER totalGastoCliente
 AFTER INSERT ON ProdutosPedido
 FOR EACH ROW
 BEGIN
-UPDATE Cliente C, Pedido P
-SET C.totalGasto = C.totalGasto + NEW.quantidade * NEW.precoVendido
-WHERE P.numPedido = NEW.numPedido AND C.idCliente = P.idCliente;
+	UPDATE Cliente C, Pedido P
+	SET C.totalGasto = C.totalGasto + NEW.quantidade * NEW.precoVendido
+	WHERE P.numPedido = NEW.numPedido AND C.idCliente = P.idCliente;
 END //
 DELIMITER ;
 
@@ -715,25 +717,64 @@ CREATE TRIGGER totalPedidosCliente
 AFTER INSERT ON Pedido
 FOR EACH ROW
 BEGIN
-UPDATE Cliente C
-SET C.pedidosEfetuados = C.pedidosEfetuados + 1
-WHERE C.idCliente = NEW.idCliente;
+	UPDATE Cliente C
+	SET C.pedidosEfetuados = C.pedidosEfetuados + 1
+	WHERE C.idCliente = NEW.idCliente;
 END //
 DELIMITER ;
 
 -- Exemplo de trigger que adiciona funcionarios que recebem um aumento de salário numa tabela própria. --
 CREATE TABLE FuncionarioPromovido (idFuncionario INT NOT NULL,
-CONSTRAINT fk_idFuncionario FOREIGN KEY (idFuncionario)
-REFERENCES Funcionario (idFuncionario)
-ON DELETE RESTRICT
-ON UPDATE RESTRICT
+	CONSTRAINT fk_idFuncionario FOREIGN KEY (idFuncionario)
+	REFERENCES Funcionario (idFuncionario)
+	ON DELETE RESTRICT
+	ON UPDATE RESTRICT
 );
 
 DELIMITER //
 CREATE TRIGGER verificarPromocao
 AFTER UPDATE ON Funcionario
-FOR EACH ROWBEGIN
-IF NEW.salario > OLD.salario THEN
-INSERT INTO FuncionarioPromovido VALUE (NEW.idFuncionario); END IF;
+FOR EACH ROW
+BEGIN
+	IF NEW.salario > OLD.salario THEN
+		INSERT INTO FuncionarioPromovido VALUE (NEW.idFuncionario); END IF;
 END //
 DELIMITER ;
+
+
+COMMIT;
+
+
+-- Para testes --
+
+SELECT *
+FROM Pessoa;
+
+SELECT *
+FROM Telefone;
+
+SELECT *
+FROM Cliente;
+
+SELECT *
+FROM Funcionario;
+
+SELECT *
+FROM Motorista;
+
+SELECT *
+FROM Loja;
+
+SELECT *
+FROM Pedido;
+
+SELECT *
+FROM Produto;
+
+SELECT *
+FROM ProdutosPedido;
+
+SELECT *
+FROM VeiculoEntrega;
+
+DROP SCHEMA LogisticaVendas;

@@ -18,7 +18,7 @@ $tabela = mysqli_query($con, $sql);
 if(mysqli_num_rows($tabela)==0){
 ?>
   <tr><td align="center">Nenhuma pessoa cadastrada.</td></tr>
-  <tr><td align="center"><input type="submit" value="incluir Pessoa"></td></tr>
+  <tr><td align="center"><input type="submit" value="Incluir pessoa"></td></tr>
 <?php
 }else{
 ?>

@@ -20,7 +20,7 @@
     }
   }
   else{
-    $sql = "INSERT INTO Pessoa VALUES (null,
+    $sql = "INSERT INTO Pessoa VALUES (NULL,
                                             '".$_POST["cpf"]."',
                                             '".$_POST["primeiroNome"]."',
                                             '".$_POST["sobrenome"]."',
