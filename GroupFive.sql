@@ -1,7 +1,7 @@
-/* -- Item (a): Criação de todas as tabelas e de todas as restrições de integridade.
+/*-- Item (a): Criação de todas as tabelas e de todas as restrições de integridade.
 --              Todas as restrições de chave (PRIMARY KEY) e de integridade referencial (FOREIGN KEY) devem ser criadas.
 
--- Criação e utilização do esquema
+-- Criação e utilização do esquema*/
 
 CREATE SCHEMA LogisticaVendas;
 
@@ -168,9 +168,8 @@ CREATE TABLE ProdutosPedido (
 	ON UPDATE RESTRICT
 );
 
-*/
 
-/* -- Item (b): Exemplos de ALTER TABLE e DROP TABLE.
+/* -- Item (b): Exemplos de ALTER TABLE e DROP TABLE.*/
 
 USE LogisticaVendas;
 
@@ -199,9 +198,9 @@ FROM ClienteBloqueado;
 
 DROP TABLE ClienteBloqueado;
 
-*/
 
-/* -- Item (c): Exemplos de inserção de dados nas tabelas.
+
+/* -- Item (c): Exemplos de inserção de dados nas tabelas.*/
 
 USE LogisticaVendas;
 
@@ -323,9 +322,8 @@ VALUES(1, 10, 20, 100.00);
 INSERT INTO ProdutosPedido (numPedido, codProduto, quantidade, precoVendido)
 VALUES(4, 18, 2, 850.00);
 
-*/
 
-/* -- Item (d): Exemplos de modificação de dados em 5 tabelas.
+/* -- Item (d): Exemplos de modificação de dados em 5 tabelas.*/
 
 USE LogisticaVendas;
 
@@ -353,9 +351,8 @@ UPDATE Motorista
 SET habilitacao = "AB"
 WHERE idMotorista = 7;
 
-*/
 
-/* -- Item (e): Exemplos de exclusão de dados em 5 tabelas.
+/* -- Item (e): Exemplos de exclusão de dados em 5 tabelas.*/
 
 USE LogisticaVendas;
 
@@ -385,9 +382,8 @@ WHERE fone NOT LIKE '35%' AND EXISTS(
 	WHERE estado = 'MG'
 );
 
-*/
 
-/* -- Item (f): Exemplos de, pelo menos, 12 consultas.
+/* -- Item (f): Exemplos de, pelo menos, 12 consultas.*/
 
 USE LogisticaVendas;
 
@@ -517,9 +513,9 @@ WHERE F.salario > SOME(
 )
 ORDER BY F.salario ASC;
 
-*/
 
-/* -- Item (g): Exemplos de criação de 3 visões (Views).
+
+/* -- Item (g): Exemplos de criação de 3 visões (Views).*/
 
 USE LogisticaVendas;
 
@@ -565,14 +561,14 @@ SELECT idPessoa, nome, endereco, telefones FROM dadosFuncionario WHERE lojaTraba
 
 DROP VIEW dadosFuncionario;
 
-*/
 
-/* -- Item (h): Exemplos de criação de usuários (pelo menos 2), concessão (GRANT) e revocação (REVOKE) de permissão de acesso.
+
+/* -- Item (h): Exemplos de criação de usuários (pelo menos 2), concessão (GRANT) e revocação (REVOKE) de permissão de acesso.*/
 
 USE LogisticaVendas;
 
--- Criação de um usuário que tem permissão de selecionar dados dos veículos utilizados para entrega e
--- executar um store producere.
+/*-- Criação de um usuário que tem permissão de selecionar dados dos veículos utilizados para entrega e
+-- executar um store producere.*/
 CREATE USER 'guilherme'@'localhost' IDENTIFIED BY '0000';
 
 GRANT SELECT ON LogisticaVendas.veiculoentrega TO 'guilherme'@'localhost';
@@ -590,14 +586,13 @@ GRANT SELECT ON LogisticaVendas.* TO 'teste'@'localhost';
 
 DROP USER 'teste'@'localhost';
 
-*/
 
 /* -- Item (i): Exemplos de 3 procedimentos/funções, com e sem parâmetros, de entrada e de saída,
---              contendo alguns comandos tais como IF, CASE WHEN, WHILE, declaração de variáveis e funções prontas.
+--              contendo alguns comandos tais como IF, CASE WHEN, WHILE, declaração de variáveis e funções prontas.*/
 
 USE LogisticaVendas;
 
--- Retorna o nome de uma determinada loja passada como parametro e a quantidade de produtos vendidos por ela
+/*-- Retorna o nome de uma determinada loja passada como parametro e a quantidade de produtos vendidos por ela*/
 DELIMITER //
 CREATE PROCEDURE InfosDaLoja(IN pIdLoja DECIMAL(2))
 BEGIN
@@ -659,10 +654,10 @@ SELECT @nomeA AS nome, @resultado1 AS Preço;
 
 DROP PROCEDURE ProdutoMaisCaro;
 
-*/
+
 
 /* -- Item (j): Exemplos de 3 triggers, um para cada evento (inserção, alteração e exclusão).
---              Inclua exemplos de como disparar os triggers.
+--              Inclua exemplos de como disparar os triggers.*/
 
 USE LogisticaVendas;
 
@@ -764,9 +759,8 @@ BEGIN
 END //
 DELIMITER ;
 
-*/
 
-/* -- Para testes --
+/* -- Para testes --*/
 
 SELECT *
 FROM Pessoa;
